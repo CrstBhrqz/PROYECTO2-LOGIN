@@ -1,11 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio ToDo</title>
+    <title>Heladería Artesanal Glacé</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <h1>Este es el inicio del todo</h1>
+    <header class="cabecera">
+        <nav class="navegacion">
+            <div class="logo">
+                <h1>Glacé</h1>
+                <p>Helados Artesanales</p>
+            </div>
+            <ul class="menu">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#productos">Productos</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="contenedor">
+        <section class="hero">
+            <div class="hero-texto">
+                <h2>Los sabores más cremosos de la ciudad</h2>
+                <p>Hechos con ingredientes 100% naturales</p>
+            </div>
+        </section>
+
+        <section class="productos" id="productos">
+            <h2 class="titulo-seccion">Nuestros Helados</h2>
+            <div class="grid-productos">
+                {% for producto in productos %}
+                <div class="producto-card">
+                    <img src="{{ producto.imagen }}" alt="{{ producto.nombre }}">
+                    <div class="producto-info">
+                        <h3>{{ producto.nombre }}</h3>
+                        <p>{{ producto.descripcion }}</p>
+                        <div class="producto-precio">
+                            {{ producto.precio }}
+                            <button class="btn-ordenar">Ordenar</button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+
+    <footer class="pie-pagina">
+        <p>© 2024 Heladería Glacé - Todos los derechos reservados</p>
+        <p>Horario: Lunes a Domingo 10AM - 10PM</p>
+    </footer>
 </body>
 </html>

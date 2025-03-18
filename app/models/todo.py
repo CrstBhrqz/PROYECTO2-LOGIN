@@ -1,4 +1,4 @@
-from config.db import db
+from app.config.db import db
 
 class Todo(db.Model):
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)

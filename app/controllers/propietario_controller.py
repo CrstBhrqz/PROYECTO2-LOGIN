@@ -1,6 +1,6 @@
 from flask import make_response, render_template
 from flask_restful import Resource
-from models.propietario import Propietario
+from app.models.security import Propietario
 
 class PropietarioController(Resource):
     def get(self):

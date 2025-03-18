@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request
-from models.todo import Todo
-from config.db import db
+from app.models.todo import Todo
+from app.config.db import db
 
 todo_blueprint = Blueprint("Todo", __name__, url_prefix="/todo")
 

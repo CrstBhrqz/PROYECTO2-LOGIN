@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template
-from models.propietario import Propietario
+from app.models.security import Propietario
 
 propietarios_blueprint = Blueprint("propietarios", __name__, url_prefix = "/propietarios")
 
