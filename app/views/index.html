@@ -6,6 +6,81 @@
     <title>Heladería Artesanal Glacé</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        /* Estilos adicionales para el modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 30px;
+            border: 1px solid #888;
+            width: 70%;
+            max-width: 800px;
+            border-radius: 15px;
+            display: flex;
+            gap: 30px;
+            position: relative;
+            animation: modalOpen 0.3s ease;
+        }
+
+        @keyframes modalOpen {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-imagen {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .modal-info {
+            flex: 1;
+        }
+
+        .close {
+            position: absolute;
+            right: 25px;
+            top: 15px;
+            color: #aaa;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #555;
+        }
+
+        .btn-ordenar-modal {
+            background: #2ecc71;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+
+        .btn-ordenar-modal:hover {
+            background: #27ae60;
+        }
+    </style>
 </head>
 <body>
     <header class="cabecera">
@@ -34,11 +109,16 @@
             <h2 class="titulo-seccion">Nuestros Helados</h2>
             <div class="grid-productos">
                 {% for producto in productos %}
-                <div class="producto-card">
+                <div class="producto-card" 
+                     data-name="{{ producto.nombre }}"
+                     data-description="{{ producto.descripcion }}"
+                     data-precio="{{ producto.precio }}"
+                     data-imagen="{{ producto.imagen }}"
+                     onclick="openModal(this)">
                     <img src="{{ producto.imagen }}" alt="{{ producto.nombre }}">
                     <div class="producto-info">
                         <h3>{{ producto.nombre }}</h3>
-                        <p>{{ producto.descripcion }}</p>
+                        <p class="descripcion-corta">{{ producto.descripcion[:100] }}...</p>
                         <div class="producto-precio">
                             {{ producto.precio }}
                             <button class="btn-ordenar">Ordenar</button>
@@ -47,6 +127,22 @@
                 </div>
                 {% endfor %}
             </div>
+            
+            <!-- Modal -->
+            <div id="productModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <img id="modal-imagen" src="" alt="Producto" class="modal-imagen">
+                    <div class="modal-info">
+                        <h2 id="modal-nombre"></h2>
+                        <p id="modal-descripcion"></p>
+                        <div class="modal-precio">
+                            <span id="modal-precio"></span>
+                            <button class="btn-ordenar-modal">Ordenar ahora</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
     </main>
 
@@ -54,5 +150,38 @@
         <p>© 2024 Heladería Glacé - Todos los derechos reservados</p>
         <p>Horario: Lunes a Domingo 10AM - 10PM</p>
     </footer>
+
+    <script>
+        // Función para abrir el modal
+        function openModal(element) {
+            const modal = document.getElementById('productModal');
+            document.getElementById('modal-nombre').textContent = element.dataset.name;
+            document.getElementById('modal-descripcion').textContent = element.dataset.description;
+            document.getElementById('modal-precio').textContent = element.dataset.precio;
+            document.getElementById('modal-imagen').src = element.dataset.imagen;
+            modal.style.display = 'block';
+        }
+
+        // Cerrar modal
+        document.querySelector('.close').addEventListener('click', function() {
+            document.getElementById('productModal').style.display = 'none';
+        });
+
+        // Cerrar al hacer click fuera del modal
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('productModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // Cerrar con tecla ESC
+        window.addEventListener('keydown', function(event) {
+            const modal = document.getElementById('productModal');
+            if (event.key === 'Escape' && modal.style.display === 'block') {
+                modal.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>

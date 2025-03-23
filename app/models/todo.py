@@ -1,7 +1,9 @@
 from app.config.db import db
 
 class Producto(db.Model):
+
     __tablename__ = 'productos'
+
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), unique=True, nullable=False)
     precio_venta = db.Column(db.Float, nullable=False)
@@ -13,7 +15,9 @@ class Producto(db.Model):
     ingredientes_asociados = db.relationship('ProductoIngrediente', back_populates='producto')
 
 class Ingrediente(db.Model):
+
     __tablename__ = 'ingredientes'
+
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), unique=True, nullable=False)
     precio = db.Column(db.Float, nullable=False)
@@ -24,7 +28,9 @@ class Ingrediente(db.Model):
     productos_asociados = db.relationship('ProductoIngrediente', back_populates='ingrediente')
 
 class ProductoIngrediente(db.Model):
+    
     __tablename__ = 'producto_ingrediente'
+
     producto_id = db.Column(db.Integer, db.ForeignKey('productos.id'), primary_key=True)
     ingrediente_id = db.Column(db.Integer, db.ForeignKey('ingredientes.id'), primary_key=True)
     cantidad = db.Column(db.Float, nullable=False)
