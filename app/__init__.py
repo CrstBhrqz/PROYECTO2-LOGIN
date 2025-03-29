@@ -4,6 +4,10 @@ from app.config.db import db
 from app.config.routes import register_routes
 from app.models.todo import Producto, Ingrediente, ProductoIngrediente
 import uvicorn
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__, template_folder="views")
 
@@ -16,4 +20,9 @@ with app.app_context():
     db.create_all()
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=5000)
+    # Cargar variables de entorno
+    uvicorn.run(
+        app, 
+        host="0.0.0.0", 
+        port=int(os.environ.get("PORT", 5000))  # Usa el puerto de Railway
+    )
