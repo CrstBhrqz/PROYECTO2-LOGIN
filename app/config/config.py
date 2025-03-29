@@ -4,8 +4,10 @@ import os
 load_dotenv(override=True)
 
 class Config:
+    """Configuración de la aplicación."""
+    DATABASE_URI = os.getenv('DATABASE_URI', 'sqlite:///Heladeria.db')
 
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///D:\\Nueva carpeta (2)\\Heladeria.db'
+    SQLALCHEMY_DATABASE_URI = DATABASE_URI  
 
 
     
